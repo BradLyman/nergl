@@ -23,21 +23,13 @@ defmodule Genotype.Actuator do
   end
 
   def with_neuron(
-      %Genotype.Actuator{
-        id: id,
-        cortex: cortex,
-        behavior: behavior,
-        neurons: neurons
-      },
+      %Genotype.Actuator{neurons: neurons} = actuator,
       neuron
     )
     when is_binary(neuron)
   do
     %Genotype.Actuator{
-      id: id,
-      cortex: cortex,
-      behavior: behavior,
-      neurons: [neuron] ++ neurons
+      actuator | neurons: [neuron] ++ neurons
     }
   end
 end

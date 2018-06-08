@@ -23,21 +23,13 @@ defmodule Genotype.Sensor do
   end
 
   def with_neuron(
-      %Genotype.Sensor{
-        id: id,
-        cortex: cortex,
-        behavior: behavior,
-        neurons: neurons
-      },
+      %Genotype.Sensor{neurons: neurons} = sensor,
       neuron
     )
     when is_binary(neuron)
   do
     %Genotype.Sensor{
-      id: id,
-      cortex: cortex,
-      behavior: behavior,
-      neurons: [neuron] ++ neurons
+      sensor | neurons: [neuron] ++ neurons
     }
   end
 end
