@@ -4,6 +4,7 @@ alias Network.Simple, as: Net
 
 defmodule Network.Simple.Cortex do
   use GenServer
+
   @moduledoc """
   The Cortex is the controller for the network.
   It is responsible for synchronizing signals from sensors and waiting for
@@ -15,7 +16,7 @@ defmodule Network.Simple.Cortex do
   Start a Cortex instance.
   """
   def start_link do
-    GenServer.start_link __MODULE__, {}
+    GenServer.start_link(__MODULE__, {})
   end
 
   @doc """
@@ -28,26 +29,23 @@ defmodule Network.Simple.Cortex do
     iex> Network.Simple.Cortex.sense_think_act cortex
   """
   def sense_think_act(cortex) do
-    GenServer.call cortex, :sense_think_act
+    GenServer.call(cortex, :sense_think_act)
   end
 
   # Callbacks
 
   @impl true
   def init(_) do
-    {:ok, actuator} = Net.Actuator.start_link
-    {:ok, neuron} = Net.Neuron.start_link actuator
-    {:ok, sensor} = Net.Sensor.start_link neuron
+    {:ok, actuator} = Net.Actuator.start_link()
+    {:ok, neuron} = Net.Neuron.start_link(actuator)
+    {:ok, sensor} = Net.Sensor.start_link(neuron)
 
     {:ok, %{sensor: sensor, neuron: neuron, actuator: actuator}}
   end
 
   @impl true
   def handle_call(:sense_think_act, _from, state) do
-    {:reply,
-      Net.Sensor.sync(state.sensor),
-      state
-    }
+    {:reply, Net.Sensor.sync(state.sensor), state}
   end
 end
 
@@ -75,7 +73,7 @@ defmodule Network.Simple.Sensor do
   neuron.
   """
   def sync(sensor) do
-    GenServer.call sensor, :sync
+    GenServer.call(sensor, :sync)
   end
 
   # Callbacks
@@ -87,11 +85,8 @@ defmodule Network.Simple.Sensor do
 
   @impl true
   def handle_call(:sync, _from, neuron) do
-    environment = [:rand.uniform, :rand.uniform]
-    {:reply,
-      Net.Neuron.sense(neuron, environment),
-      neuron
-    }
+    environment = [:rand.uniform(), :rand.uniform()]
+    {:reply, Net.Neuron.sense(neuron, environment), neuron}
   end
 end
 
@@ -117,7 +112,7 @@ defmodule Network.Simple.Actuator do
   Send a signal to the actuator.
   """
   def sense(actuator, signal) do
-    GenServer.call actuator, {:forward, signal}
+    GenServer.call(actuator, {:forward, signal})
   end
 
   # Callbacks
@@ -158,7 +153,7 @@ defmodule Network.Simple.Neuron do
   end
 
   def sense(neuron, signal) when is_list(signal) do
-    GenServer.call neuron, {:sense, signal}
+    GenServer.call(neuron, {:sense, signal})
   end
 
   # Callbacks
@@ -172,10 +167,8 @@ defmodule Network.Simple.Neuron do
   def handle_call({:sense, signal}, _from, state) do
     value =
       Linalg.dot(signal ++ [1.0], state.weights)
-      |> :math.tanh
-    {:reply,
-      Net.Actuator.sense(state.actuator, value),
-      state
-    }
+      |> :math.tanh()
+
+    {:reply, Net.Actuator.sense(state.actuator, value), state}
   end
 end

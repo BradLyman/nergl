@@ -1,8 +1,8 @@
 defmodule Linalg do
   def dot(x, y) when is_list(x) and is_list(y) and length(x) == length(y) do
     Enum.zip(x, y)
-    |> Enum.map(fn {a, b} -> a*b end)
-    |> Enum.reduce(0, fn(x, acc) -> x + acc end)
+    |> Enum.map(fn {a, b} -> a * b end)
+    |> Enum.reduce(0, fn x, acc -> x + acc end)
   end
 
   def pretty(vec) when is_list(vec) do
@@ -13,6 +13,6 @@ defmodule Linalg do
   end
 
   def pretty(num) when is_number(num) do
-    Float.round(num, 3) |> Float.to_string
+    Float.round(num, 3) |> Float.to_string()
   end
 end

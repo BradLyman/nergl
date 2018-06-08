@@ -22,16 +22,14 @@ defmodule Neuron do
 
   @impl true
   def init({weights, bias}) do
-    Logger.info(
-      "neuron #{as_string self()} <#{as_string(weights)}> + #{as_string bias}"
-    )
+    Logger.info("neuron #{as_string(self())} <#{as_string(weights)}> + #{as_string(bias)}")
     {:ok, {weights, bias}}
   end
 
   @impl true
   def handle_call({:sense, signal}, _from, {weights, bias}) do
-    Logger.info "signal #{as_string self()} <#{as_string signal}>"
-    value = dot(signal, weights) + bias |> :math.tanh
+    Logger.info("signal #{as_string(self())} <#{as_string(signal)}>")
+    value = (dot(signal, weights) + bias) |> :math.tanh()
     {:reply, value, {weights, bias}}
   end
 
@@ -42,16 +40,16 @@ defmodule Neuron do
   end
 
   defp as_string(list) when is_list(list) do
-    Enum.map list, &as_string/1
+    Enum.map(list, &as_string/1)
   end
 
   defp as_string(n) when is_number(n) do
     n
     |> Float.round(3)
-    |> Float.to_string
+    |> Float.to_string()
   end
 
   defp as_string(pid) when is_pid(pid) do
-    Kernel.inspect pid
+    Kernel.inspect(pid)
   end
 end
