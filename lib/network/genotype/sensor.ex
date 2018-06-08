@@ -12,7 +12,7 @@ defmodule Genotype.Sensor do
   @doc """
   Create a cortex which isn't configured to wait for any neurons.
   """
-  def new(cortex, behavior \\ :print)
+  def new(cortex, behavior \\ :rng)
       when is_binary(cortex) and is_atom(behavior) do
     %Genotype.Sensor{
       id: unique_id(:name),
