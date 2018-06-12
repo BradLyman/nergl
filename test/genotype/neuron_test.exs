@@ -8,11 +8,11 @@ defmodule Genotype.NeuronTest do
     [neuron: Neuron.new "cortex"]
   end
 
-  test "basic neuron", context = %{neuron: neuron} do
+  test "basic neuron", %{neuron: neuron} do
     assert Genotype.Id.is_id? neuron.id
   end
 
-  test "neuron with inputs", context = %{neuron: basic} do
+  test "neuron with inputs", %{neuron: basic} do
     neuron =
       basic
       |> Neuron.with_input("sensor", [0.5, 0.25])
@@ -24,7 +24,7 @@ defmodule Genotype.NeuronTest do
     assert length(neuron.input["other_sensor"]) == 1
   end
 
-  test "neuron with outputs", context = %{neuron: basic} do
+  test "neuron with outputs", %{neuron: basic} do
     neuron = Neuron.with_output basic, "actuator"
 
     assert neuron.id == basic.id
