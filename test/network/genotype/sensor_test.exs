@@ -6,7 +6,7 @@ defmodule Genotype.SensorTest do
     cortex = "some_cortex_id"
     sensor = Genotype.Sensor.new(cortex, :myfunc)
 
-    assert Genotype.is_id?(sensor.id)
+    assert Genotype.Id.is_id?(sensor.id)
     assert sensor.cortex == cortex
     assert sensor.behavior == :myfunc
     assert sensor.neurons == []

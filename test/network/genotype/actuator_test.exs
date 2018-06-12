@@ -6,7 +6,7 @@ defmodule Genotype.ActuatorTest do
     cortex = "some_cortex_id"
     actuator = Genotype.Actuator.new(cortex, :myfunc)
 
-    assert Genotype.is_id?(actuator.id)
+    assert Genotype.Id.is_id?(actuator.id)
     assert actuator.cortex == cortex
     assert actuator.behavior == :myfunc
     assert actuator.neurons == []

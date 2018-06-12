@@ -9,7 +9,7 @@ defmodule Genotype.NeuronTest do
   end
 
   test "basic neuron", context = %{neuron: neuron} do
-    assert Genotype.is_id? neuron.id
+    assert Genotype.Id.is_id? neuron.id
   end
 
   test "neuron with inputs", context = %{neuron: basic} do

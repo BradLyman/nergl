@@ -4,7 +4,7 @@ defmodule Genotype.Actuator do
   from it's connected neurons.
   """
 
-  import Genotype
+  alias Genotype.Id, as: Id
 
   @enforce [:id, :cortex, :behavior, :neurons]
   defstruct [:id, :cortex, :behavior, :neurons]
@@ -15,7 +15,7 @@ defmodule Genotype.Actuator do
   def new(cortex, behavior \\ :print)
       when is_binary(cortex) and is_atom(behavior) do
     %Genotype.Actuator{
-      id: unique_id(:name),
+      id: Id.unique("actuator"),
       cortex: cortex,
       behavior: behavior,
       neurons: []

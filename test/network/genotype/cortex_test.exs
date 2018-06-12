@@ -9,7 +9,7 @@ defmodule Genotype.CortexTest do
   end
 
   test "cortex has valid id", %{cortex: cortex} do
-    assert Genotype.is_id? cortex.id
+    assert Genotype.Id.is_id? cortex.id
   end
 
   test "add sensors", %{cortex: empty} do

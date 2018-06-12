@@ -17,7 +17,7 @@ defmodule Genotype.Neuron do
 
   """
 
-  import Genotype
+  alias Genotype.Id, as: Id
   alias Genotype.Neuron, as: Neuron
 
   @enforce [:id, :cortex, :operation, :input, :output]
@@ -29,7 +29,7 @@ defmodule Genotype.Neuron do
   def new(cortex, operation \\ :tanh)
       when is_binary(cortex) and is_atom(operation) do
     %Neuron{
-      id: unique_id(:name),
+      id: Id.unique("neuron"),
       cortex: cortex,
       operation: operation,
       input: %{},

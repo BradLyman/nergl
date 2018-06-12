@@ -17,7 +17,7 @@ defmodule Genotype.Cortex do
 
   """
 
-  import Genotype
+  alias Genotype.Id, as: Id
 
   @enforce [:id, :actuators, :sensors, :neurons]
   defstruct [:id, :actuators, :sensors, :neurons]
@@ -27,7 +27,7 @@ defmodule Genotype.Cortex do
   """
   def new do
     %Genotype.Cortex{
-      id: Genotype.unique_id(__MODULE__),
+      id: Id.unique("cortex"),
       actuators: [],
       sensors: [],
       neurons: []

@@ -4,7 +4,7 @@ defmodule Genotype.Sensor do
   environment.
   """
 
-  import Genotype
+  alias Genotype.Id, as: Id
 
   @enforce [:id, :cortex, :behavior, :neurons]
   defstruct [:id, :cortex, :behavior, :neurons]
@@ -15,7 +15,7 @@ defmodule Genotype.Sensor do
   def new(cortex, behavior \\ :rng)
       when is_binary(cortex) and is_atom(behavior) do
     %Genotype.Sensor{
-      id: unique_id(:name),
+      id: Id.unique("sensor"),
       cortex: cortex,
       behavior: behavior,
       neurons: []
